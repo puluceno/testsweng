@@ -17,6 +17,7 @@ public class Tweet implements Serializable {
 	private String userName;
 	private String lang;
 	private int userFollowersCount;
+	private String message;
 
 	/**
 	 * Empty constructor
@@ -32,9 +33,10 @@ public class Tweet implements Serializable {
 	 * @param userName
 	 * @param lang
 	 * @param userFollowersCount
+	 * @param message
 	 */
 	public Tweet(LocalDateTime created, String tag, String userID, String userScreenName, String userName, String lang,
-			int userFollowersCount) {
+			int userFollowersCount, String message) {
 		this.created = created;
 		this.tag = tag;
 		this.userID = userID;
@@ -42,6 +44,7 @@ public class Tweet implements Serializable {
 		this.userName = userName;
 		this.lang = lang;
 		this.userFollowersCount = userFollowersCount;
+		this.message = message;
 	}
 
 	public ObjectId getId() {
@@ -108,6 +111,14 @@ public class Tweet implements Serializable {
 		this.userFollowersCount = userFollowersCount;
 	}
 
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -155,7 +166,7 @@ public class Tweet implements Serializable {
 	public String toString() {
 		return "Tweet [Created at: " + created + ", Tag: " + tag + ", User ID: " + userID + ", Twitter Name: @"
 				+ userScreenName + ", User Name: " + userName + ", Tweet Language: " + lang + ", User has "
-				+ userFollowersCount + " followers.]";
+				+ userFollowersCount + " followers. Message: " + message + "]";
 	}
 
 }

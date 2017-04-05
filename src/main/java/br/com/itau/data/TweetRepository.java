@@ -50,8 +50,9 @@ public class TweetRepository {
 			Document group = new Document("$group",
 					new Document("_id", new Document("tag", "$tag").append("lang", "$lang")).append("count",
 							new Document("$sum", 1)));
+			Document sort = new Document("$sort", new Document("count", -1));
 
-			return tweetCollection.aggregate(Arrays.asList(match, group)).into(new ArrayList<Document>());
+			return tweetCollection.aggregate(Arrays.asList(match, group, sort)).into(new ArrayList<Document>());
 		} catch (Exception e) {
 			Logger.trace(e);
 			List<Document> error = new ArrayList<Document>();
@@ -64,9 +65,14 @@ public class TweetRepository {
 		// List<Tweet> list = tweetCollection.find().into(new
 		// ArrayList<Document>()).stream().map(TweetUtils::toTweet)
 		// .collect(Collectors.toList());
+		//
+		//// Map<Object, List<Tweet>> grouped = list.stream()
+		//// .collect(Collectors.groupingBy(tweet ->
+		// tweet.getCreated().getDayOfMonth()));
 
 		Document group = new Document("$group",
-				new Document("_id", new Document("day", "$created.date.day")).append("count", new Document("$sum", 1)));
+				new Document("_id", new Document("day", "$created.date.day").append("hour", "$created.time.hour"))
+						.append("count", new Document("$sum", 1)));
 		Document sort = new Document("$sort", new Document("count", -1));
 		return tweetCollection.aggregate(Arrays.asList(group, sort)).into(new ArrayList<Document>());
 	}

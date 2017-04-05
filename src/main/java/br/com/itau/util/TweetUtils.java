@@ -25,7 +25,8 @@ public class TweetUtils {
 		return queryResult.getTweets().stream()
 				.map(tweet -> new Tweet(DateUtils.toLocalDateTime(tweet.getCreatedAt()), queryResult.getQuery(),
 						String.valueOf(tweet.getUser().getId()), tweet.getUser().getScreenName(),
-						tweet.getUser().getName(), tweet.getLang(), tweet.getUser().getFollowersCount()))
+						tweet.getUser().getName(), tweet.getLang(), tweet.getUser().getFollowersCount(),
+						tweet.getText()))
 				.collect(Collectors.toList()).stream();
 	}
 
