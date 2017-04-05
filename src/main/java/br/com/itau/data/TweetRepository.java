@@ -13,8 +13,8 @@ import org.pmw.tinylog.Logger;
 import com.mongodb.client.MongoCollection;
 
 import br.com.itau.model.Tweet;
-import br.com.itau.model.TweetUtils;
 import br.com.itau.resources.MongoResource;
+import br.com.itau.util.TweetUtils;
 
 public class TweetRepository {
 
@@ -58,6 +58,17 @@ public class TweetRepository {
 			error.add(new Document("error", e.getMessage()));
 			return error;
 		}
+	}
+
+	public static List<Document> findTweetGroupedByHour() {
+		// List<Tweet> list = tweetCollection.find().into(new
+		// ArrayList<Document>()).stream().map(TweetUtils::toTweet)
+		// .collect(Collectors.toList());
+
+		Document group = new Document("$group",
+				new Document("_id", new Document("day", "$created.date.day")).append("count", new Document("$sum", 1)));
+		Document sort = new Document("$sort", new Document("count", -1));
+		return tweetCollection.aggregate(Arrays.asList(group, sort)).into(new ArrayList<Document>());
 	}
 
 	public static void saveTweet(Tweet tweet) {

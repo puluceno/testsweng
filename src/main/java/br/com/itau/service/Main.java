@@ -12,9 +12,9 @@ import br.com.itau.business.TweetCrawler;
 import br.com.itau.business.TweetCrawlerImpl;
 import br.com.itau.data.TagsRepository;
 import br.com.itau.data.TweetRepository;
-import br.com.itau.model.TweetUtils;
 import br.com.itau.resources.CorsFilter;
 import br.com.itau.resources.MongoResource;
+import br.com.itau.util.TweetUtils;
 
 public class Main {
 	private static final TweetCrawler tweet = new TweetCrawlerImpl();
@@ -34,10 +34,10 @@ public class Main {
 		});
 
 		get("/hourly", (req, res) -> {
-			return "hourly";
+			return TweetUtils.toJson(tweet.getTweetsByHour());
 		});
 
-		get("tags", (req, res) -> {
+		get("/tags", (req, res) -> {
 			return TagsRepository.findAllTags();
 		});
 

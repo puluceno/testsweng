@@ -1,7 +1,7 @@
 package br.com.itau.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.bson.types.ObjectId;
 
@@ -10,7 +10,7 @@ public class Tweet implements Serializable {
 	private static final long serialVersionUID = 1632484229118352245L;
 
 	private ObjectId id;
-	private Date created;
+	private LocalDateTime created;
 	private String tag;
 	private String userID;
 	private String userScreenName;
@@ -33,7 +33,7 @@ public class Tweet implements Serializable {
 	 * @param lang
 	 * @param userFollowersCount
 	 */
-	public Tweet(Date created, String tag, String userID, String userScreenName, String userName, String lang,
+	public Tweet(LocalDateTime created, String tag, String userID, String userScreenName, String userName, String lang,
 			int userFollowersCount) {
 		this.created = created;
 		this.tag = tag;
@@ -52,11 +52,11 @@ public class Tweet implements Serializable {
 		this.id = id;
 	}
 
-	public Date getCreated() {
+	public LocalDateTime getCreated() {
 		return created;
 	}
 
-	public void setCreated(Date created) {
+	public void setCreated(LocalDateTime created) {
 		this.created = created;
 	}
 
