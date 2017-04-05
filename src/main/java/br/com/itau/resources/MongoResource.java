@@ -30,8 +30,8 @@ public class MongoResource {
 
 	public static void createIndex(String collection, String field) {
 		try {
-			Logger.info("Indexing the colletion '{}' for field '{}'.", collection, field);
-			MongoResource.getDataBase("ca").getCollection(collection).createIndex(new Document(field, 1));
+			MongoResource.getDataBase("tweet").getCollection(collection).createIndex(new Document(field, 1));
+			Logger.info("Index created in the colletion '{}' for field '{}'.", collection, field);
 		} catch (Exception e) {
 			if (e instanceof MongoCommandException)
 				Logger.error("Could not create index: key too large to index.");
@@ -46,7 +46,7 @@ public class MongoResource {
 			for (int i = 0; i < fields.length; i++) {
 				index.append(fields[i], 1);
 			}
-			MongoResource.getDataBase("ca").getCollection(collection).createIndex(index);
+			MongoResource.getDataBase("tweet").getCollection(collection).createIndex(index);
 			Logger.info("Index created in the colletion '{}' for field '{}'.", collection, index.entrySet());
 		} catch (Exception e) {
 			if (e instanceof MongoCommandException)
@@ -57,13 +57,13 @@ public class MongoResource {
 	}
 
 	public static void generateIndexes() {
-		createIndex("tweets", "created");
-		createIndex("tweets", "tag");
-		createIndex("tweets", "lang");
-		createIndex("tweets", "userFollowersCount");
-		createIndex("tweets", "userID");
-		createIndex("tweets", "userScreenName");
-		createIndex("tweets", "userName");
-		createCoumpoundIndex("tweets", "created", "lang", "tag");
+		createIndex("tweet", "created");
+		createIndex("tweet", "tag");
+		createIndex("tweet", "lang");
+		createIndex("tweet", "userFollowersCount");
+		createIndex("tweet", "userID");
+		createIndex("tweet", "userScreenName");
+		createIndex("tweet", "userName");
+		createCoumpoundIndex("tweet", "created", "lang", "tag");
 	}
 }

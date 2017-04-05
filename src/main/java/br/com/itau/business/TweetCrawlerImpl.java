@@ -1,11 +1,10 @@
 package br.com.itau.business;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import br.com.itau.data.TweetRepository;
 import br.com.itau.model.Tweet;
 import br.com.itau.model.TweetUtils;
 import twitter4j.Query;
@@ -17,12 +16,6 @@ import twitter4j.TwitterFactory;
 public class TweetCrawlerImpl implements TweetCrawler {
 
 	private static int MAX_RESULT = 100;
-
-	public static void main(String[] args) {
-		TweetCrawler crawl = new TweetCrawlerImpl();
-		Set<String> h = new HashSet<String>(Arrays.asList("#floripa", "#nature"));
-		crawl.getTweetByTag(h);
-	}
 
 	@Override
 	public List<Tweet> getTweetByTag(Set<String> tags) {
@@ -38,11 +31,20 @@ public class TweetCrawlerImpl implements TweetCrawler {
 	}
 
 	@Override
-	public Query createQuery(String tag) {
+	public List<Tweet> getTopFiveUsersByFollowersCount() {
+		return TweetRepository.findTweetsByFollowersCount();
+	}
+
+	private Query createQuery(String tag) {
 		Query query = new Query(tag);
 		query.setCount(MAX_RESULT);
 		query.setResultType(ResultType.recent);
 		return query;
+	}
+
+	@Override
+	public Object getTweetTotalsByTags(String lang) {
+		return TweetRepository.findTweetTotalsByTags(lang);
 	}
 
 }

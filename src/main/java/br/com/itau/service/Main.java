@@ -6,25 +6,31 @@ import static spark.Spark.get;
 import java.util.Set;
 import java.util.logging.Level;
 
+import org.pmw.tinylog.Logger;
+
 import br.com.itau.business.TweetCrawler;
 import br.com.itau.business.TweetCrawlerImpl;
 import br.com.itau.data.TagsRepository;
 import br.com.itau.data.TweetRepository;
+import br.com.itau.model.TweetUtils;
 import br.com.itau.resources.CorsFilter;
+import br.com.itau.resources.MongoResource;
 
 public class Main {
+	private static final TweetCrawler tweet = new TweetCrawlerImpl();
+
 	public static void main(String[] args) {
 
 		get("/tag", (req, res) -> {
-			return "tag";
+			return TweetUtils.toJson(tweet.getTweetByTag(req.queryParams()));
 		});
 
 		get("/top5", (req, res) -> {
-			return "5";
+			return TweetUtils.toJson(tweet.getTopFiveUsersByFollowersCount());
 		});
 
 		get("/tagtotal", (req, res) -> {
-			return "tag total";
+			return TweetUtils.toJson(tweet.getTweetTotalsByTags("pt"));
 		});
 
 		get("/hourly", (req, res) -> {
@@ -45,14 +51,20 @@ public class Main {
 	private static void init() {
 		clearLogs();
 		CorsFilter.apply();
+
 		TweetCrawler crawl = new TweetCrawlerImpl();
 		Set<String> tags = TagsRepository.findAllTags();
-		crawl.getTweetByTag(tags).forEach(TweetRepository::saveTweet);
-		System.out.println("**************************************");
-		TweetRepository.findTweetsByTags(tags.toArray(new String[tags.size()])).forEach(t -> System.out.print(t));
 
+		TweetRepository.dropCollection();
+		MongoResource.generateIndexes();
+
+		crawl.getTweetByTag(tags).forEach(TweetRepository::saveTweet);
+		Logger.info("Initialization successful!");
 	}
 
+	/**
+	 * Prevent MongoDB for creating log entries in every request
+	 */
 	private static void clearLogs() {
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.SEVERE);
 		java.util.logging.Logger.getLogger("org.apache.http.client.protocol.ResponseProcessCookies")

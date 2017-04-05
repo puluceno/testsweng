@@ -1,5 +1,7 @@
 package br.com.itau.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -19,9 +21,9 @@ public class TweetUtils {
 
 	public static Stream<Tweet> toTweet(QueryResult queryResult) {
 		return queryResult.getTweets().stream()
-				.map(tweet -> new Tweet(tweet.getCreatedAt(), queryResult.getQuery(), tweet.getUser().getId(),
-						tweet.getUser().getScreenName(), tweet.getUser().getName(), tweet.getLang(),
-						tweet.getUser().getFollowersCount()))
+				.map(tweet -> new Tweet(tweet.getCreatedAt(), queryResult.getQuery(),
+						String.valueOf(tweet.getUser().getId()), tweet.getUser().getScreenName(),
+						tweet.getUser().getName(), tweet.getLang(), tweet.getUser().getFollowersCount()))
 				.collect(Collectors.toList()).stream();
 	}
 
@@ -43,6 +45,20 @@ public class TweetUtils {
 		String json = new Gson().toJson(tweet);
 		DBObject parse = (DBObject) JSON.parse(json);
 		return new Document(parse.toMap());
+	}
+
+	public static Object toJson(Object object) {
+		if (object instanceof Tweet)
+			return new Gson().toJson(object);
+		if (object instanceof Document)
+			return ((Document) object).toJson();
+		if (object instanceof ArrayList<?>) {
+			List<String> objList = new ArrayList<String>();
+			((ArrayList<?>) object).forEach(document -> objList.add((String) toJson(document)));
+			return objList;
+		}
+
+		return object == null ? "" : object.toString();
 	}
 
 	public static boolean isTagValid(String tag) {

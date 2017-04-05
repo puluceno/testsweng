@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import br.com.itau.model.Tweet;
-import twitter4j.Query;
 
 public interface TweetCrawler {
 
@@ -18,22 +17,12 @@ public interface TweetCrawler {
 	public List<Tweet> getTweetByTag(Set<String> tags);
 
 	/**
-	 * Verifies if the tag is not empty and if it contains the hashtag
-	 * character.
+	 * Finds the top 5 users with most followers
 	 * 
-	 * @param tag
-	 *            Input tag that will be verified.
-	 * @return true if the tag is valid. False otherwise.
+	 * @return List of tweets containing the information about the top 5 users.
 	 */
-	// boolean isTagValid(String tag);
+	public List<Tweet> getTopFiveUsersByFollowersCount();
 
-	/**
-	 * Build a query for the given tag.
-	 * 
-	 * @param tag
-	 *            String tag (#tag).
-	 * @return A Query for the given tag.
-	 */
-	Query createQuery(String tag);
+	public Object getTweetTotalsByTags(String lang);
 
 }

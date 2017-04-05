@@ -1,5 +1,7 @@
 package br.com.itau.data;
 
+import static com.mongodb.client.model.Sorts.descending;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +38,33 @@ public class TweetRepository {
 		return tweets;
 	}
 
+	public static List<Tweet> findTweetsByFollowersCount() {
+		return tweetCollection.find().sort(descending("userFollowersCount")).limit(5).into(new ArrayList<Document>())
+				.stream().map(TweetUtils::toTweet).collect(Collectors.toList());
+	}
+
+	public static List<Document> findTweetTotalsByTags(String lang) {
+		try {
+			Document match = new Document("$match", new Document("lang", lang));
+
+			Document group = new Document("$group",
+					new Document("_id", new Document("tag", "$tag").append("lang", "$lang")).append("count",
+							new Document("$sum", 1)));
+
+			return tweetCollection.aggregate(Arrays.asList(match, group)).into(new ArrayList<Document>());
+		} catch (Exception e) {
+			Logger.trace(e);
+			List<Document> error = new ArrayList<Document>();
+			error.add(new Document("error", e.getMessage()));
+			return error;
+		}
+	}
+
 	public static void saveTweet(Tweet tweet) {
 		tweetCollection.insertOne(TweetUtils.toDocument(tweet));
+	}
+
+	public static void dropCollection() {
+		tweetCollection.drop();
 	}
 }

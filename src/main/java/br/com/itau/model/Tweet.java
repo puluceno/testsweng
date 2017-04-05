@@ -12,7 +12,7 @@ public class Tweet implements Serializable {
 	private ObjectId id;
 	private Date created;
 	private String tag;
-	private long userID;
+	private String userID;
 	private String userScreenName;
 	private String userName;
 	private String lang;
@@ -33,7 +33,7 @@ public class Tweet implements Serializable {
 	 * @param lang
 	 * @param userFollowersCount
 	 */
-	public Tweet(Date created, String tag, long userID, String userScreenName, String userName, String lang,
+	public Tweet(Date created, String tag, String userID, String userScreenName, String userName, String lang,
 			int userFollowersCount) {
 		this.created = created;
 		this.tag = tag;
@@ -68,11 +68,11 @@ public class Tweet implements Serializable {
 		this.tag = tag;
 	}
 
-	public long getUserID() {
+	public String getUserID() {
 		return userID;
 	}
 
-	public void setUserID(long userID) {
+	public void setUserID(String userID) {
 		this.userID = userID;
 	}
 
@@ -106,6 +106,49 @@ public class Tweet implements Serializable {
 
 	public void setUserFollowersCount(int userFollowersCount) {
 		this.userFollowersCount = userFollowersCount;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((created == null) ? 0 : created.hashCode());
+		result = prime * result + ((lang == null) ? 0 : lang.hashCode());
+		result = prime * result + ((tag == null) ? 0 : tag.hashCode());
+		result = prime * result + ((userID == null) ? 0 : userID.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Tweet))
+			return false;
+		Tweet other = (Tweet) obj;
+		if (created == null) {
+			if (other.created != null)
+				return false;
+		} else if (!created.equals(other.created))
+			return false;
+		if (lang == null) {
+			if (other.lang != null)
+				return false;
+		} else if (!lang.equals(other.lang))
+			return false;
+		if (tag == null) {
+			if (other.tag != null)
+				return false;
+		} else if (!tag.equals(other.tag))
+			return false;
+		if (userID == null) {
+			if (other.userID != null)
+				return false;
+		} else if (!userID.equals(other.userID))
+			return false;
+		return true;
 	}
 
 	@Override
