@@ -3,6 +3,9 @@ package br.com.itau.business;
 import java.util.List;
 import java.util.Set;
 
+import br.com.itau.model.Tweet;
+import twitter4j.Query;
+
 public interface TweetCrawler {
 
 	/**
@@ -12,7 +15,7 @@ public interface TweetCrawler {
 	 *            Hashtag tag (#tag)
 	 * @return List of tweets
 	 */
-	public List<Object> getTweetByTag(Set<String> tags);
+	public List<Tweet> getTweetByTag(Set<String> tags);
 
 	/**
 	 * Verifies if the tag is not empty and if it contains the hashtag
@@ -22,6 +25,15 @@ public interface TweetCrawler {
 	 *            Input tag that will be verified.
 	 * @return true if the tag is valid. False otherwise.
 	 */
-	boolean isTagValid(String tag);
+	// boolean isTagValid(String tag);
+
+	/**
+	 * Build a query for the given tag.
+	 * 
+	 * @param tag
+	 *            String tag (#tag).
+	 * @return A Query for the given tag.
+	 */
+	Query createQuery(String tag);
 
 }

@@ -1,48 +1,48 @@
 package br.com.itau.business;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import br.com.itau.model.Tweet;
+import br.com.itau.model.TweetUtils;
 import twitter4j.Query;
-import twitter4j.QueryResult;
+import twitter4j.Query.ResultType;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
 public class TweetCrawlerImpl implements TweetCrawler {
 
-	public static void main(String[] args) {
-		Twitter twitter = TwitterFactory.getSingleton();
-		Query query = new Query(
-				"#brasil OR #brazil OR #brasil2017 OR #brazil2017 OR #carnaval OR #tourism OR #bahia OR #riodejaneiro OR #saopaulo");
-		query.setCount(100);
-		query.setLang("pt");
-		QueryResult result = null;
-		try {
-			result = twitter.search(query);
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}
-		result.getTweets().stream().forEach(status -> System.out.println(
-				status.getCreatedAt() + " : " + "@" + status.getUser().getScreenName() + ":" + status.getText()));
+	private static int MAX_RESULT = 100;
 
+	public static void main(String[] args) {
+		TweetCrawler crawl = new TweetCrawlerImpl();
+		Set<String> h = new HashSet<String>(Arrays.asList("#floripa", "#nature"));
+		crawl.getTweetByTag(h);
 	}
 
 	@Override
-	public List<Object> getTweetByTag(Set<String> tags) {
-		tags.stream().filter(this::isValidTag).map(this::createQueryForTag).map(query -> {
+	public List<Tweet> getTweetByTag(Set<String> tags) {
+		Twitter twitter = TwitterFactory.getSingleton();
+
+		return tags.stream().filter(TweetUtils::isTagValid).map(this::createQuery).map(query -> {
 			try {
-				LOGGER.info("Performing search for tag: {}.", query.getQuery());
-				return twitter.search().search(query);
+				return twitter.search(query);
 			} catch (TwitterException e) {
 				throw new RuntimeException(e);
 			}
-		}).flatMap(this::convertStatusToSimpleTweet).forEach(repository::saveTweet);
+		}).flatMap(TweetUtils::toTweet).collect(Collectors.toList());
 	}
 
 	@Override
-	public boolean isTagValid(String tag) {
-
+	public Query createQuery(String tag) {
+		Query query = new Query(tag);
+		query.setCount(MAX_RESULT);
+		query.setResultType(ResultType.recent);
+		return query;
 	}
 
 }
