@@ -37,3 +37,5 @@ Partindo do princípio que o Docker está instalado na sua máquina, é necessá
 		* Busca o total de postagens, agrupadas por hora do dia (utilizando java stream): curl ip:4567/hourly
 		* Busca o total de postagens, agrupadas por hora do dia (utilizando a função de agregação do MongoDB): curl ip:4567/hourly2
 		* Busca os ultimos 100 tweets para uma determinada tag: curl ip:4567/tag?%23floripa
+		
+5- Opcionalmente, pode-se executar somente o arquivo docker/itau/run.sh. Este executará o build do Dockerfile, inicializará o container e executará os métodos acima, tudo de forma automática.
