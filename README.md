@@ -1,26 +1,26 @@
-#Teste para Ita˙
+Teste para Ita√∫
 
-##AplicaÁ„o
-A aplicaÁ„o utiliza java 8 e faz extensivo uso de lambda functions e streams. Outras tecnologias utilizadas s„o:
-* Sparkjava - Um pequeno, r·pido e pr·tico framework para a criaÁ„o de aplicaÁıes web e APIs Rest, que inclusive conta com o servidor Jetty embutido.
-* Biblioteca twitter4j, que facilita bastante a interaÁ„o com a api do Twitter.
-* Biblioteca TinyLog, a biblioteca de logs mais r·pida existente em java, que muito pouca gente conhece. Muito f·cil de ser utilizada, porÈm limitada.
-* JUnit, para a criaÁ„o e execuÁ„o de testes unit·rios.
+Aplica√ß√£o
+A aplica√ß√£o utiliza java 8 e faz extensivo uso de lambda functions e streams. Outras tecnologias utilizadas s√£o:
+* Sparkjava - Um pequeno, r√°pido e pr√°tico framework para a cria√ß√£o de aplica√ß√µes web e APIs Rest, que inclusive conta com o servidor Jetty embutido.
+* Biblioteca twitter4j, que facilita bastante a intera√ß√£o com a api do Twitter.
+* Biblioteca TinyLog, a biblioteca de logs mais r√°pida existente em java, que muito pouca gente conhece. Muito f√°cil de ser utilizada, por√©m limitada.
+* JUnit, para a cria√ß√£o e execu√ß√£o de testes unit√°rios.
 
-##Container
+Container
 O container ao ser inicializado, executa um script via entrypoint que:
 * Inicia o banco de dados - MongoDB;
 * Importa os dados utilizados para a atividade #3;
-* Inicia a aplicaÁ„o java.
+* Inicia a aplica√ß√£o java.
 
-##UtilizaÁ„o
-Partindo do princÌpio que o Docker est· instalado na sua m·quina, È necess·rio executar os seguintes comandos:
+Utiliza√ß√£o
+Partindo do princ√≠pio que o Docker est√° instalado na sua m√°quina, √© necess√°rio executar os seguintes comandos:
 1- Entrar na pasta do projeto.
-2- Realizar o build do container atravÈs do comando: docker build -t itau docker/itau
-3- Inicializar o container atravÈs do comando: docker run -it itau
+2- Realizar o build do container atrav√©s do comando: docker build -t itau docker/itau
+3- Inicializar o container atrav√©s do comando: docker run -it itau
 4- Para simplificar, recomenda-se o uso do curl para testar a api:
-	* Busca os top 5 usu·rios com mais followers: curl ip:4567/top5
-	* Busca o total para as postagens em PortuguÍs, para cada uma das #tag solicitadas: curl ip:4567/tagtotal
+	* Busca os top 5 usu√°rios com mais followers: curl ip:4567/top5
+	* Busca o total para as postagens em Portugu√™s, para cada uma das #tag solicitadas: curl ip:4567/tagtotal
 	* Busca o total de postagens, agrupadas por hora do dia (utilizando java stream): curl ip:4567/hourly
-	* Busca o total de postagens, agrupadas por hora do dia (utilizando a funÁ„o de agregaÁ„o do MongoDB): curl ip:4567/hourly2
+	* Busca o total de postagens, agrupadas por hora do dia (utilizando a fun√ß√£o de agrega√ß√£o do MongoDB): curl ip:4567/hourly2
 	* Busca os ultimos 100 tweets para uma determinada tag: curl ip:4567/tag?%23floripa
