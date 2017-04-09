@@ -1,0 +1,9 @@
+07/04/2017 18:23:46 INFO: Index created in the colletion 'tweet' for field 'created'.
+07/04/2017 18:23:46 INFO: Index created in the colletion 'tweet' for field 'tag'.
+07/04/2017 18:23:46 INFO: Index created in the colletion 'tweet' for field 'lang'.
+07/04/2017 18:23:46 INFO: Index created in the colletion 'tweet' for field 'userFollowersCount'.
+07/04/2017 18:23:46 INFO: Index created in the colletion 'tweet' for field 'userID'.
+07/04/2017 18:23:46 INFO: Index created in the colletion 'tweet' for field 'userScreenName'.
+07/04/2017 18:23:46 INFO: Index created in the colletion 'tweet' for field 'userName'.
+07/04/2017 18:23:46 INFO: Index created in the colletion 'tweet' for field '[created=1, lang=1, tag=1]'.
+07/04/2017 18:23:53 INFO: Initialization successful!

@@ -33,13 +33,6 @@
 			<version>2.5.5</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.mashape.unirest/unirest-java -->
-		<dependency>
-			<groupId>com.mashape.unirest</groupId>
-			<artifactId>unirest-java</artifactId>
-			<version>1.4.9</version>
-		</dependency>
-
 		<!-- Tweet crawling library -->
 		<dependency>
 			<groupId>org.twitter4j</groupId>
@@ -66,6 +59,14 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Mockito for mocking purposes -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>2.7.21</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -107,7 +108,7 @@
 	</dependencyManagement>
 
 	<build>
-		<finalName>ca</finalName>
+		<finalName>itau</finalName>
 		<plugins>
 
 			<!-- download source code in Eclipse, best practice -->

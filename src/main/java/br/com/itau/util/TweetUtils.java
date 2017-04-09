@@ -64,7 +64,4 @@ public class TweetUtils {
 		return object == null ? "" : object.toString();
 	}
 
-	public static boolean isTagValid(String tag) {
-		return (tag.length() > 1 && tag.startsWith("#"));
-	}
 }

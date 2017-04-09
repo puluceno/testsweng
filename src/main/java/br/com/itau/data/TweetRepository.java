@@ -12,6 +12,7 @@ import org.pmw.tinylog.Logger;
 
 import com.mongodb.client.MongoCollection;
 
+import br.com.itau.business.TweetBusinessImpl;
 import br.com.itau.model.Tweet;
 import br.com.itau.resources.MongoResource;
 import br.com.itau.util.TweetUtils;
@@ -26,10 +27,14 @@ public class TweetRepository {
 				.collect(Collectors.toList());
 	}
 
+	public static List<Document> findAllTweetsDocument() {
+		return tweetCollection.find().into(new ArrayList<Document>());
+	}
+
 	public static List<Tweet> findTweetsByTags(String... tags) {
 		List<Tweet> tweets = null;
 
-		if (tags != null && tags.length > 0 && Arrays.asList(tags).stream().allMatch(TweetUtils::isTagValid)) {
+		if (tags != null && tags.length > 0 && Arrays.asList(tags).stream().allMatch(TweetBusinessImpl::isTagValid)) {
 			tweets = tweetCollection.find().into(new ArrayList<Document>()).stream().map(TweetUtils::toTweet)
 					.collect(Collectors.toList());
 		} else {
@@ -61,15 +66,7 @@ public class TweetRepository {
 		}
 	}
 
-	public static List<Document> findTweetGroupedByHour() {
-		// List<Tweet> list = tweetCollection.find().into(new
-		// ArrayList<Document>()).stream().map(TweetUtils::toTweet)
-		// .collect(Collectors.toList());
-		//
-		//// Map<Object, List<Tweet>> grouped = list.stream()
-		//// .collect(Collectors.groupingBy(tweet ->
-		// tweet.getCreated().getDayOfMonth()));
-
+	public static List<Document> findTweetGroupedByHourAggregate() {
 		Document group = new Document("$group",
 				new Document("_id", new Document("day", "$created.date.day").append("hour", "$created.time.hour"))
 						.append("count", new Document("$sum", 1)));
